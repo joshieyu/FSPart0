@@ -1,0 +1,13 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note right of browser: Before sending the HTTP request, the browser JS code has already created and rendered  the  new note
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+    activate server
+    deactivate server
+
+    Note right of browser: No other requests are sent
+
+   
