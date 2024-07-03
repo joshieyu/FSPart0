@@ -3,22 +3,24 @@ import axios from 'axios'
 import Add from './Components/Add'
 import Persons from './Components/Persons'
 import Search from './Components/Search'
+import communication from './services/communication'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
+  // const [inPhonebook, setInPhonebook] = useState(false)
 
-  const hook = () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('fulfilled')
-        setPersons(response.data)
-      })
-  }
-  useEffect(hook, [])
+
+  useEffect(() => {
+    communication
+    .getAll()
+    .then(response => {
+      // console.log(response)
+      setPersons(response)
+    })
+  }, [])
 
   const numbersToShow = persons.filter((person => person.name.toLowerCase().includes(newSearch.toLowerCase())))
 
@@ -28,15 +30,20 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-  
+
     if (persons.some(person => person.name === personObject.name))
     {
       alert(`${personObject.name} is already added to the phonebook`);
     }
     else 
     {
-      setPersons(persons.concat(personObject))
-      setNewName('')
+      communication
+        .create(personObject)
+        .then(response => {
+          setPersons(persons.concat(response))
+          setNewName('')
+          setNewName('')
+        })
     }
   }
 
