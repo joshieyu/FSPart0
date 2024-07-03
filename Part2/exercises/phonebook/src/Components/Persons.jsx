@@ -1,8 +1,11 @@
-const Persons = ({persons}) => {
+const Persons = ({ persons, deleteHandler }) => {
   return (
     <>
       <ul>
-      {persons.map(person => <li key={person.name}>{person.name} {person.number}</li>)}
+      {persons.map(person => 
+        <li key={person.name}>
+          {person.name} {person.number} <button onClick={() => deleteHandler(person.id)}>delete</button>
+        </li>)}
       </ul>
     </>
   )

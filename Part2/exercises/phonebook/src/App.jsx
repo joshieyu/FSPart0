@@ -28,7 +28,8 @@ const App = () => {
     event.preventDefault()
     const personObject = {
       name: newName,
-      number: newNumber
+      number: newNumber,
+      id: (persons.length + 1).toString()
     }
 
     if (persons.some(person => person.name === personObject.name))
@@ -42,9 +43,20 @@ const App = () => {
         .then(response => {
           setPersons(persons.concat(response))
           setNewName('')
-          setNewName('')
+          setNewNumber('')
         })
     }
+  }
+
+  const handleDeleteNumber = (id) => {
+    console.log("is this being called?")
+    console.log(id)
+    communication
+      .deleteNumber(id)
+      .then(response => {
+        setPersons(persons.filter(person => person.id !== id))
+      })
+      .catch(error => alert("Error deleting person"))
   }
 
   const handleNameChange = (event) => {
@@ -66,7 +78,7 @@ const App = () => {
       <h2>Add a new</h2>
       <Add onSubmitHandler={addNumber} nameValue={newName} nameChangeHandler={handleNameChange} numberValue={newNumber} numberChangeHandler={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons persons={numbersToShow} />
+      <Persons persons={numbersToShow} deleteHandler={handleDeleteNumber} />
     </div>
   )
 }
