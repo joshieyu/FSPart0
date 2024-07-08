@@ -16,13 +16,18 @@
       "important": true
     },
     {
-      "id": 4,
+      "id": "4",
       "content": "test",
       "important": false
     },
     {
-      "id": 5,
+      "id": "5",
       "content": "more etest",
+      "important": false
+    },
+    {
+      "id": 6,
+      "content": "Hello",
       "important": false
     }
   ]

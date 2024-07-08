@@ -3,6 +3,7 @@ import axios from 'axios'
 import Add from './Components/Add'
 import Persons from './Components/Persons'
 import Search from './Components/Search'
+import Notification from './Components/Notification'
 import communication from './services/communication'
 
 const App = () => {
@@ -10,7 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newSearch, setNewSearch] = useState('')
-  // const [inPhonebook, setInPhonebook] = useState(false)
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [isError, setIsError] = useState(false)
 
 
   useEffect(() => {
@@ -34,7 +36,14 @@ const App = () => {
 
     if (persons.some(person => person.name === personObject.name))
     {
-      alert(`${personObject.name} is already added to the phonebook`);
+      // alert(`${personObject.name} is already added to the phonebook`);
+      setNotificationMessage(`${personObject.name} is already added to the phonebook`)
+      setIsError(true)
+      setTimeout(() => {
+        setNotificationMessage(null)
+        setIsError(false)
+      }, 5000)
+
     }
     else 
     {
@@ -44,6 +53,12 @@ const App = () => {
           setPersons(persons.concat(response))
           setNewName('')
           setNewNumber('')
+          setNotificationMessage(`Added ${personObject.name}`)
+          setIsError(false)
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setIsError(false)
+          }, 5000)
         })
     }
   }
@@ -74,6 +89,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} type={isError} />
       <Search value={newSearch} handler={handleSearchChange} />
       <h2>Add a new</h2>
       <Add onSubmitHandler={addNumber} nameValue={newName} nameChangeHandler={handleNameChange} numberValue={newNumber} numberChangeHandler={handleNumberChange}/>
