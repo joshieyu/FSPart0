@@ -5,17 +5,17 @@ app.use(express.json())
 
 let notes = [
   {
-    id: 1,
+    id: '1',
     content: "HTML is easy",
     important: true
   },
   {
-    id: 2,
+    id: '2',
     content: "Browser can execute only JavaScript",
     important: false
   },
   {
-    id: 3,
+    id: '3',
     content: "GET and POST are the most important methods of HTTP protocol",
     important: true
   }
@@ -69,12 +69,13 @@ app.post('/api/notes', (request, response) => {
     id: generateId(),
   }
 
-  note = notes.concat(note)
-
+  // notes = notes.concat(note)
+  notes.push(note)
+  console.log(notes)
   response.json(note)
 })
 
-const PORT = 3001
+const PORT = 3002
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
